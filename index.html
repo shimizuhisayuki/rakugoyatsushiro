@@ -177,11 +177,12 @@
       }
     }
 
- <form action="/submit" method="post">
-   <label for ="email">メールアドレス:</label>
-    <inout type = "email" id="email" name="email" required placeholder="example@domain.com"
-    <button type="submit">送信</botton>
-   </form>
+    const email = document.getElementById('email').value;
+       if (!email.includes("@")) {
+        email += "@example.com";
+        document.getElementById('email').value = email;
+    }
+
     // ★ バリデーション
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         alert("メールアドレスの形式が正しくありません");
