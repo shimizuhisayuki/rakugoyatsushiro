@@ -84,10 +84,10 @@
       <p>① 参加したい落語会を選んでください</p>
       <select id="event">
         <option value="">選択してください</option>
-        <option>春の落語まつり</option>
-        <option>夏の夜の寄席</option>
-        <option>秋の独演会</option>
-        <option>冬の笑い納め</option>
+        <option>落語会１</option>
+        <option>落語会２</option>
+        <option>落語会３</option>
+        <option>落語会４</option>
       </select><br>
       <button type="button" onclick="nextStep(2)">次へ</button>
     </div>
@@ -178,9 +178,15 @@
     }
 
     const email = document.getElementById('email').value;
+       if (!email.includes("@")) {
+        email += "@example.com";
+        document.getElementById('email').value = email;
+    }
+
+    // ★ バリデーション
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      alert('正しいメールアドレスを入力してください。');
-      return;
+        alert("メールアドレスの形式が正しくありません");
+        return;
     }
 
     // 確認画面を表示
@@ -216,7 +222,7 @@
     formData.append("メール", document.getElementById('email').value);
 
     try {
-      const response = await fetch("https://formspree.io/f/xvgvjwon", {
+      const response = await fetch("https://formspree.io/f/xdkynjdk", {
         method: "POST",
         body: formData,
         headers: { "Accept": "application/json" }
