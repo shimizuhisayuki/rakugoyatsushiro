@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>落語会 ご予約フォーム</title>
-
 <style>
   body {
     font-family: "Yu Gothic UI", sans-serif;
@@ -23,17 +22,11 @@
     border-radius: 20px;
     max-width: 700px;
     width: 90%;
+    position: relative;
   }
 
-  h1 {
-    font-size: 36px;
-    margin-bottom: 30px;
-  }
-
-  p {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
+  h1 { font-size: 36px; margin-bottom: 30px; }
+  p { font-size: 20px; margin-bottom: 20px; }
 
   select, input {
     width: 85%;
@@ -57,37 +50,25 @@
     margin-top: 15px;
   }
 
-  button:hover {
-    background-color: #ff7b00;
-  }
+  button:hover { background-color: #ff7b00; }
 
-  .hidden {
-    display: none;
-  }
+  .hidden { display: none; }
+  .back-btn { background-color: #ccc; color: #333; margin-top: 10px; }
+  .back-btn:hover { background-color: #aaa; }
 
-  .back-btn {
-    background-color: #ccc;
-    color: #333;
-    margin-top: 10px;
-  }
-
-  .back-btn:hover {
-    background-color: #aaa;
-  }
-
-  /* ★ メールドメイン候補のリスト */
+  /* ドメイン候補 */
   #domainList {
-    border: 1px solid #ccc;
-    display: none;
     position: absolute;
-    background: white;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 410px; /* メール入力の下あたり */
     width: 85%;
-    font-size: 18px;
+    background: #fff;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    z-index: 10;
+    display: none;
     text-align: left;
-    padding: 0;
-    margin-top: -10px;
-    margin-left: 7%;
-    z-index: 1000;
   }
 
   #domainList div {
@@ -96,10 +77,10 @@
   }
 
   #domainList div:hover {
-    background: #f5f5f5;
+    background-color: #f0f0f0;
   }
-</style>
 
+</style>
 </head>
 <body>
   <div class="container">
@@ -150,164 +131,12 @@
         <option>その他（町・村）</option>
       </select><br>
       <input type="text" id="address" placeholder="市以降の住所・番地など"><br>
-
-      <!-- ★ メールアドレス → ドメイン候補つき -->
-      <input type="email" id="email" placeholder="メールアドレス">
+      <input type="email" id="email" placeholder="メールアドレス"><br>
       <div id="domainList"></div>
-
       <button type="button" onclick="backStep(1)" class="back-btn">戻る</button>
       <button type="button" onclick="validateAndNext()">確認画面へ</button>
     </div>
 
     <!-- 確認画面 -->
-    <div id="confirm" class="hidden">
-      <p>📋 以下の内容で送信してよろしいですか？</p>
-      <div id="confirmText" style="text-align:left; font-size:18px; margin:15px 0;"></div>
-      <button type="button" id="submitBtn">送信する</button><br>
-      <button type="button" onclick="editStep(2)" class="back-btn">修正する</button>
-    </div>
-
-    <!-- 完了画面 -->
-    <div id="thanks" class="hidden">
-      <h2>✅ ご予約ありがとうございました！</h2>
-      <p>担当者より折り返しご連絡いたします。</p>
-      <button type="button" onclick="resetForm()">はじめからやり直す</button>
-    </div>
-  </div>
-
-<script>
-  function nextStep(step) {
-    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
-    document.getElementById('step' + step)?.classList.remove('hidden');
-  }
-
-  function backStep(step) {
-    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
-    document.getElementById('step' + step)?.classList.remove('hidden');
-  }
-
-  function editStep(step) {
-    backStep(step);
-  }
-
-  function resetForm() {
-    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
-    document.getElementById('step1').classList.remove('hidden');
-  }
-
-  // 入力チェック + 確認画面へ進む
-  function validateAndNext() {
-    const required = ['name','phone','pref','city','email'];
-    for (let id of required) {
-      const el = document.getElementById(id);
-      if (!el.value.trim()) {
-        alert(`${el.placeholder}を入力してください。`);
-        el.focus();
-        return;
-      }
-    }
-
-    const email = document.getElementById('email').value;
-
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        alert("メールアドレスの形式が正しくありません");
-        return;
-    }
-
-    // 確認画面へ
-    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
-    document.getElementById('confirm').classList.remove('hidden');
-
-    document.getElementById('confirmText').innerHTML =
-      `<b>イベント:</b> ${event.value}<br>
-       <b>お名前:</b> ${name.value}<br>
-       <b>電話番号:</b> ${phone.value}<br>
-       <b>住所:</b> ${pref.value} ${city.value} ${address.value}<br>
-       <b>メール:</b> ${email}`;
-  }
-
-  // フォーム送信
-  async function sendForm() {
-    const formData = new FormData();
-    formData.append("イベント", event.value);
-    formData.append("お名前", name.value);
-    formData.append("電話番号", phone.value);
-    formData.append("都道府県", pref.value);
-    formData.append("市区町村", city.value);
-    formData.append("住所", address.value);
-    formData.append("メール", email.value);
-
-    try {
-      const response = await fetch("https://formspree.io/f/xdkynjdk", {
-        method: "POST",
-        body: formData,
-        headers: { "Accept": "application/json" }
-      });
-
-      if (response.ok) {
-        showThanks();
-      } else {
-        alert("送信に失敗しました。もう一度お試しください。");
-      }
-    } catch (err) {
-      alert("通信エラーが発生しました。インターネット接続を確認してください。");
-    }
-  }
-
-  document.getElementById('submitBtn').addEventListener('click', sendForm);
-
-  function showThanks() {
-    document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
-    document.getElementById('thanks').classList.remove('hidden');
-  }
-
-
-
-  /* ===============================
-     ＠入力でドメイン候補を出す機能
-  =============================== */
-  const emailInput = document.getElementById("email");
-  const domainList = document.getElementById("domainList");
-
-  const domains = [
-    "gmail.com",
-    "yahoo.co.jp",
-    "outlook.jp",
-    "docomo.ne.jp",
-    "ezweb.ne.jp",
-    "softbank.ne.jp"
-  ];
-
-  emailInput.addEventListener("input", function () {
-    const value = emailInput.value;
-
-    if (value.endsWith("@")) {
-      showDomainList();
-    } else {
-      domainList.style.display = "none";
-    }
-  });
-
-  function showDomainList() {
-    domainList.innerHTML = "";
-
-    domains.forEach(domain => {
-      const item = document.createElement("div");
-      item.textContent = domain;
-
-      item.addEventListener("click", function () {
-        const base = emailInput.value.split("@")[0];
-        emailInput.value = base + "@" + domain;
-        domainList.style.display = "none";
-      });
-
-      domainList.appendChild(item);
-    });
-
-    domainList.style.display = "block";
-  }
-</script>
-
-</body>
-</html>
+    <div id="confirm"
 
