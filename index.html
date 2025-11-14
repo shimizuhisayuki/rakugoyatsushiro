@@ -73,77 +73,90 @@
   .back-btn:hover {
     background-color: #aaa;
   }
+
+  #domainList span {
+    cursor: pointer;
+  }
+  #domainList span:hover {
+    text-decoration: underline;
+    color: #ff8c42;
+  }
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>落語会 ご予約</h1>
+<div class="container">
+  <h1>落語会 ご予約</h1>
 
-    <!-- ステップ1 -->
-    <div id="step1">
-      <p>① 参加したい落語会を選んでください</p>
-      <select id="event">
-        <option value="">選択してください</option>
-        <option>落語会１</option>
-        <option>落語会２</option>
-        <option>落語会３</option>
-        <option>落語会４</option>
-      </select><br>
-      <button type="button" onclick="nextStep(2)">次へ</button>
-    </div>
-
-    <!-- ステップ2 -->
-    <div id="step2" class="hidden">
-      <p>② ご予約者情報を入力してください</p>
-      <input type="text" id="name" placeholder="お名前"><br>
-      <input type="tel" id="phone" placeholder="電話番号"><br>
-      <select id="pref">
-        <option value="">都道府県を選択</option>
-        <option>熊本県</option>
-      </select><br>
-      <select id="city">
-        <option value="">市区町村を選択</option>
-        <option>熊本市中央区</option>
-        <option>熊本市東区</option>
-        <option>熊本市西区</option>
-        <option>熊本市南区</option>
-        <option>熊本市北区</option>
-        <option>八代市</option>
-        <option>人吉市</option>
-        <option>荒尾市</option>
-        <option>水俣市</option>
-        <option>玉名市</option>
-        <option>山鹿市</option>
-        <option>菊池市</option>
-        <option>宇土市</option>
-        <option>上天草市</option>
-        <option>宇城市</option>
-        <option>阿蘇市</option>
-        <option>天草市</option>
-        <option>合志市</option>
-        <option>その他（町・村）</option>
-      </select><br>
-      <input type="text" id="address" placeholder="市以降の住所・番地など"><br>
-      <input type="email" id="email" placeholder="メールアドレス"><br>
-      <button type="button" onclick="backStep(1)" class="back-btn">戻る</button>
-      <button type="button" onclick="validateAndNext()">確認画面へ</button>
-    </div>
-
-    <!-- 確認画面 -->
-    <div id="confirm" class="hidden">
-      <p>📋 以下の内容で送信してよろしいですか？</p>
-      <div id="confirmText" style="text-align:left; font-size:18px; margin:15px 0;"></div>
-      <button type="button" id="submitBtn">送信する</button><br>
-      <button type="button" onclick="editStep(2)" class="back-btn">修正する</button>
-    </div>
-
-    <!-- 完了画面 -->
-    <div id="thanks" class="hidden">
-      <h2>✅ ご予約ありがとうございました！</h2>
-      <p>担当者より折り返しご連絡いたします。</p>
-      <button type="button" onclick="resetForm()">はじめからやり直す</button>
-    </div>
+  <!-- ステップ1 -->
+  <div id="step1">
+    <p>① 参加したい落語会を選んでください</p>
+    <select id="event">
+      <option value="">選択してください</option>
+      <option>落語会１</option>
+      <option>落語会２</option>
+      <option>落語会３</option>
+      <option>落語会４</option>
+    </select><br>
+    <button type="button" onclick="nextStep(2)">次へ</button>
   </div>
+
+  <!-- ステップ2 -->
+  <div id="step2" class="hidden">
+    <p>② ご予約者情報を入力してください</p>
+    <input type="text" id="name" placeholder="お名前"><br>
+    <input type="tel" id="phone" placeholder="電話番号"><br>
+    <select id="pref">
+      <option value="">都道府県を選択</option>
+      <option>熊本県</option>
+    </select><br>
+    <select id="city">
+      <option value="">市区町村を選択</option>
+      <option>熊本市中央区</option>
+      <option>熊本市東区</option>
+      <option>熊本市西区</option>
+      <option>熊本市南区</option>
+      <option>熊本市北区</option>
+      <option>八代市</option>
+      <option>人吉市</option>
+      <option>荒尾市</option>
+      <option>水俣市</option>
+      <option>玉名市</option>
+      <option>山鹿市</option>
+      <option>菊池市</option>
+      <option>宇土市</option>
+      <option>上天草市</option>
+      <option>宇城市</option>
+      <option>阿蘇市</option>
+      <option>天草市</option>
+      <option>合志市</option>
+      <option>その他（町・村）</option>
+    </select><br>
+    <input type="text" id="address" placeholder="市以降の住所・番地など"><br>
+    <input type="email" id="email" placeholder="メールアドレス"><br>
+    <div id="domainList" class="hidden" style="text-align:left; margin:5px 0; font-size:16px; color:#555;">
+      <span class="domain-item" data-domain="@gmail.com">@gmail.com</span><br>
+      <span class="domain-item" data-domain="@yahoo.co.jp">@yahoo.co.jp</span><br>
+      <span class="domain-item" data-domain="@icloud.com">@icloud.com</span>
+    </div>
+    <button type="button" onclick="backStep(1)" class="back-btn">戻る</button>
+    <button type="button" onclick="validateAndNext()">確認画面へ</button>
+  </div>
+
+  <!-- 確認画面 -->
+  <div id="confirm" class="hidden">
+    <p>📋 以下の内容で送信してよろしいですか？</p>
+    <div id="confirmText" style="text-align:left; font-size:18px; margin:15px 0;"></div>
+    <button type="button" id="submitBtn">送信する</button><br>
+    <button type="button" onclick="editStep(2)" class="back-btn">修正する</button>
+  </div>
+
+  <!-- 完了画面 -->
+  <div id="thanks" class="hidden">
+    <h2>✅ ご予約ありがとうございました！</h2>
+    <p>担当者より折り返しご連絡いたします。</p>
+    <button type="button" onclick="resetForm()">はじめからやり直す</button>
+  </div>
+</div>
 
 <script>
   function nextStep(step) {
@@ -165,6 +178,27 @@
     document.getElementById('step1').classList.remove('hidden');
   }
 
+  // メール入力補完
+  const emailInput = document.getElementById("email");
+  const domainList = document.getElementById("domainList");
+
+  emailInput.addEventListener("input", function() {
+    const value = emailInput.value;
+    if (value.includes("@") && value.split("@")[1] === "") {
+      domainList.classList.remove("hidden");
+    } else {
+      domainList.classList.add("hidden");
+    }
+  });
+
+  domainList.querySelectorAll(".domain-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const localPart = emailInput.value.split("@")[0];
+      emailInput.value = localPart + item.dataset.domain;
+      domainList.classList.add("hidden");
+    });
+  });
+
   // 入力チェック + 確認画面へ進む
   function validateAndNext() {
     const required = ['name','phone','pref','city','email'];
@@ -178,22 +212,16 @@
     }
 
     const email = document.getElementById('email').value;
-       if (!email.includes("@")) {
-        email += "@example.com";
-        document.getElementById('email').value = email;
-    }
 
-    // ★ バリデーション
+    // メールは送信時に正規表現でチェック
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         alert("メールアドレスの形式が正しくありません");
         return;
     }
 
-    // 確認画面を表示
     document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
     document.getElementById('confirm').classList.remove('hidden');
 
-    // 確認内容を反映
     const e = document.getElementById('event').value;
     const n = document.getElementById('name').value;
     const p = document.getElementById('phone').value;
@@ -247,3 +275,4 @@
 </script>
 </body>
 </html>
+
