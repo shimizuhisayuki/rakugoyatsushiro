@@ -131,8 +131,8 @@
       <option>合志市</option>
       <option>その他（町・村）</option>
     </select><br>
-    <input type="text" id="address" placeholder="市以降の住所・番地など"><br>
-    <input type="email" id="email" placeholder="メールアドレス"><br>
+    <input type="text" id="address" placeholder="市以降の住所・番地など（任意）"><br>
+    <input type="email" id="email" placeholder="メールアドレス（任意）"><br>
     <div id="domainList" class="hidden" style="text-align:left; margin:5px 0; font-size:16px; color:#555;">
       <span class="domain-item" data-domain="@gmail.com">@gmail.com</span><br>
       <span class="domain-item" data-domain="@yahoo.co.jp">@yahoo.co.jp</span><br>
@@ -201,7 +201,8 @@
 
   // 入力チェック + 確認画面へ進む
   function validateAndNext() {
-    const required = ['name','phone','pref','city','email'];
+    const required = ['name','phone','pref','city']; // emailとaddressは任意
+
     for (let id of required) {
       const el = document.getElementById(id);
       if (!el.value.trim()) {
@@ -211,12 +212,10 @@
       }
     }
 
-    const email = document.getElementById('email').value;
-
-    // メールは送信時に正規表現でチェック
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        alert("メールアドレスの形式が正しくありません");
-        return;
+    const email = document.getElementById('email').value.trim();
+    if (email !== "" && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      alert("メールアドレスの形式が正しくありません");
+      return;
     }
 
     document.querySelectorAll('.container > div').forEach(d => d.classList.add('hidden'));
