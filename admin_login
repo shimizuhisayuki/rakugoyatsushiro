@@ -1,0 +1,4 @@
+<form action="admin_check.php" method="POST">
+  <input type="password" name="key" placeholder="マスターキー" required>
+  <button type="submit">ログイン</button>
+</form>
